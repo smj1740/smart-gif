@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.smj1740.smartgif" android:versionCode="1" android:versionName="1.0">
+    package="io.github.smj1740.smartgif" android:versionCode="2" android:versionName="1.1">
     <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="34" />
     <application android:label="스마트 GIF" android:theme="@android:style/Theme.Material.Light.NoActionBar"
+        android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher"
         android:allowBackup="false" android:usesCleartextTraffic="false">
         <activity android:name=".MainActivity" android:exported="true"
             android:configChanges="orientation|screenSize|keyboardHidden">

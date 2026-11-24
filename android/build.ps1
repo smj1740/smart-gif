@@ -42,8 +42,11 @@ Invoke-BuildTool (Join-Path $tools 'd8.bat') (@('--min-api','24','--lib',$platfo
 Push-Location -LiteralPath $project
 try {
     Invoke-BuildTool (Join-Path $tools 'aapt2.exe') @(
+        'compile','--dir','android/res','-o','android/.build/resources.zip')
+    Invoke-BuildTool (Join-Path $tools 'aapt2.exe') @(
         'link','-I',(Resolve-Path -Relative -LiteralPath $platform),
-        '--manifest','android/AndroidManifest.xml','-o','android/.build/unsigned.apk')
+        '--manifest','android/AndroidManifest.xml','-o','android/.build/unsigned.apk',
+        'android/.build/resources.zip')
 } finally {
     Pop-Location
 }
