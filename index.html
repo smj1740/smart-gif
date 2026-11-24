@@ -1172,6 +1172,7 @@ body {
 }
 
   </style>
+  <link rel="stylesheet" href="editor.css" />
 </head>
 <body>
   <div class="ocean-bg" aria-hidden="true">
@@ -1201,7 +1202,11 @@ body {
     </div>
   </header>
 
-  <main class="main">
+  <nav class="gif-nav" aria-label="GIF 작업">
+  <a href="#generator" id="gif-generator-link">GIF 생성</a>
+  <a href="#editor" id="gif-editor-link">GIF 편집</a>
+</nav>
+<main class="main" id="gif-generator">
     <section id="dropzone" class="dropzone" tabindex="0" aria-label="동영상 업로드 영역">
       <div class="dropzone-mascots" aria-hidden="true">
         <figure class="haeyangi-movie left">
@@ -2134,6 +2139,7 @@ return {GIFEncoder:ct, quantize:H, applyPalette:nt};
     }
   }
 
+  window.getGifFFmpeg = getFFmpeg;
   async function transcodeToCompatibleMp4(file) {
     const ff = await getFFmpeg();
     const ext = getExtension(file.name) || "mp4";
@@ -2531,5 +2537,7 @@ return {GIFEncoder:ct, quantize:H, applyPalette:nt};
 })();
 
   </script>
+  <script src="editor-engine.js"></script>
+  <script src="editor.js"></script>
 </body>
 </html>
