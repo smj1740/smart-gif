@@ -247,6 +247,10 @@
   async function save() {
     const item = result;
     const filename = baseName + "_ed." + item.ext;
+    if (window.saveAndroidGif) {
+      await saveOnAndroid(filename);
+      return;
+    }
     if (window.showSaveFilePicker) {
       try {
         const handle = await window.showSaveFilePicker({ id: filePickerId, suggestedName: filename,
@@ -266,6 +270,15 @@
     }
     const name = window.prompt("저장할 파일 이름을 입력해 주세요. 저장 위치는 브라우저의 다운로드 설정을 따릅니다.", filename)?.trim();
     if (name) downloadLink(item.url, name.toLowerCase().endsWith("." + item.ext) ? name : name + "." + item.ext);
+  }
+
+  async function saveOnAndroid(filename) {
+    showError("");
+    try {
+      await window.saveAndroidGif(result.blob, filename);
+    } catch (error) {
+      showError(error.message);
+    }
   }
 
   $(".ge-upload").addEventListener("dragover", (event) => {
@@ -289,7 +302,7 @@
     load(file, handle?.kind === "file" ? handle : undefined);
   });
   $("#ge-pick").addEventListener("click", async () => {
-    if (window.showOpenFilePicker) {
+    if (!window.AndroidGif && window.showOpenFilePicker) {
       try {
         const [handle] = await window.showOpenFilePicker({ id: filePickerId, multiple: false,
           types: [{ description: "GIF 이미지", accept: { "image/gif": [".gif"] } }] });
@@ -327,7 +340,10 @@
       button.innerHTML = icon(locked ? "locked" : "unlocked");
       if (locked) $("#ge-x").dispatchEvent(new Event("input", { bubbles: true }));
     }
-    if (button.id === "ge-download") downloadLink(result.url, result.name);
+    if (button.id === "ge-download") {
+      if (window.saveAndroidGif) saveOnAndroid(result.name);
+      else downloadLink(result.url, result.name);
+    }
     if (button.id === "ge-save") save();
     if (button.id === "ge-reset") {
       ++loadVersion;

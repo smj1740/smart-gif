@@ -2390,6 +2390,10 @@ return {GIFEncoder:ct, quantize:H, applyPalette:nt};
     if (!gifBlob) return;
     const name = downloadName || "output.gif";
     try {
+      if (window.saveAndroidGif) {
+        await window.saveAndroidGif(gifBlob, name);
+        return;
+      }
       if (supportsDirPicker && !directoryHandle) {
         const wantFolder = window.confirm(
           "저장 폴더를 선택하면 다운로드한 GIF가 해당 폴더에 저장되고,\n갤러리에서 삭제할 때 컴퓨터 파일도 함께 지울 수 있습니다.\n\n지금 저장 폴더를 선택할까요?"
