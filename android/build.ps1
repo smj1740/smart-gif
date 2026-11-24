@@ -43,12 +43,12 @@ Push-Location -LiteralPath $project
 try {
     Invoke-BuildTool (Join-Path $tools 'aapt2.exe') @(
         'link','-I',(Resolve-Path -Relative -LiteralPath $platform),
-        '--manifest','android/AndroidManifest.xml','-A','android/.build/assets','-o','android/.build/unsigned.apk')
+        '--manifest','android/AndroidManifest.xml','-o','android/.build/unsigned.apk')
 } finally {
     Pop-Location
 }
 Invoke-BuildTool (Join-Path $JavaHome 'bin/jar.exe') @(
-    'uf',$unsigned,'-C',$dex,'classes.dex')
+    'uf',$unsigned,'-C',$dex,'classes.dex','-C',$build,'assets')
 Push-Location -LiteralPath $build
 try {
     Invoke-BuildTool (Join-Path $tools 'zipalign.exe') @('-f','4','unsigned.apk','aligned.apk')
